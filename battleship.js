@@ -1,30 +1,91 @@
-$(() => {
-  // Select table containing the battleground
-  const battleground = $('#battleground');
+const ships = [5,4,3,3,2];
 
-  // Build 10 x 10 grid for battleground
-  for (let row = 0; row < 10; row++) {
-    // Create table row
-    const tr = $('<tr>');
-    for (let column = 0; column < 10; column++) {
-      // Create table cell with CSS class `water`. Note that we use
-      // HTML data attributes  to store the coordinates of each cell
-      // (see https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes). 
-      // That makes it much easier to find cells based on coordinates later.
-      $('<td>').addClass('water').attr('data-r', row).attr('data-c', column).appendTo(tr);
+const battleground = [
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false]
+
+
+];
+
+for(var i = 0; i < ships.length; i++){
+    var pos_x = Math.floor((Math.random()*8)+1);
+    var pos_y = Math.floor((Math.random()*8)+1);
+    var isfree = true;
+    if(pos_x - ships[i] >= 1){
+        for(var j = 0; j<=ships[j] && isfree; j++){
+            if(j == 0){
+                if(battleground[pos_x+1][pos_y]==true){
+                    isfree=false;
+                }
+            }
+            if(battleground[pos_x-1][pos_y]==true||battleground[pos_x-1][pos_y+1]==true||battleground[pos_x-1][pos_y-1]==true){
+                isfree=false;
+            }
+
+        }
+        for(var x = 0; x < ships[i]&&isfree; x++){
+            battleground[pos_x][pos_y] = true;
+            pos_x = pos_x - 1;
+        }
+    }else if(pos_x + ships[i] <= 8){
+        for(var j = 0; j<=ships[j] && isfree; j++){
+            if(j == 0){
+                if(battleground[pos_x-1][pos_y]==true){
+                    isfree=false;
+                }
+            }
+            if(battleground[pos_x+1][pos_y]==true||battleground[pos_x+1][pos_y+1]==true||battleground[pos_x+1][pos_y-1]==true){
+                isfree=false;
+            }
+    
+        }
+        for(var x = 0; x < ships[i]&&isfree; x++){
+            battleground[pos_x][pos_y] = true;
+            pos_x = pos_x + 1;
+        }
+    }else if(pos_y - ships[i] >= 1){
+        for(var j = 0; j<=ships[j] && isfree; j++){
+            if(j == 0){
+                if(battleground[pos_x][pos_y+1]==true){
+                    isfree=false;
+                }
+            }
+            if(battleground[pos_x][pos_y-1]==true||battleground[pos_x+1][pos_y-1]==true||battleground[pos_x-1][pos_y-1]==true){
+                isfree=false;
+            }
+            
+        }
+        for(var x = 0; x < ships[i]&&isfree; x++){
+            battleground[pos_x][pos_y] = true;
+            pos_y = pos_y - 1;
+        }
+    }else if(pos_y + ships[i] <= 8){
+        for(var j = 0; j<=ships[j] && isfree; j++){
+            if(j == 0){
+                if(battleground[pos_x][pos_y-1]==true){
+                    isfree=false;
+                }
+            }
+            if(battleground[pos_x][pos_y+1]==true||battleground[pos_x+1][pos_y+1]==true||battleground[pos_x-1][pos_y+1]==true){
+                isfree=false;
+            }
+           
+        }
+        for(var x = 0; x < ships[i] && isfree; x++){
+            battleground[pos_x][pos_y] = true;
+            pos_y = pos_y + 1;
+        }
     }
-
-    // Add table row to battleground table
-    tr.appendTo(battleground);
-  }
-
-  $('#generate').click(() => {
-    // Here you have to add your code for building a random battleground.
-
-    // Tip: The next line of code demonstrates how you can select a table cell
-    // using coordinates, remove CSS classes and add CSS classes. 
-    $('td[data-r="1"][data-c="1"]').removeClass('water').addClass('ship');
-    $('td[data-r="2"][data-c="1"]').removeClass('water').addClass('ship');
-    $('td[data-r="3"][data-c="1"]').removeClass('water').addClass('ship');
-  });
-});
+    if(isfree==false){
+        i = i-1;
+    }
+}
+console.log(battleground);
