@@ -1,5 +1,6 @@
 const ships = [5,4,3,3,2];
 
+// Prefer initializing the battleground using a `for` loop
 const battleground = [
     [false, false, false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false],
@@ -38,6 +39,7 @@ for(var i = 0; i < ships.length; i++){
     }else if(pos_x + ships[i] <= 8){
         for(var j = 0; j<=ships[j] && isfree; j++){
             if(j == 0){
+                // Avoid `== true`, just write `if(battleground[pos_x-1][pos_y])`
                 if(battleground[pos_x-1][pos_y]==true){
                     isfree=false;
                 }
@@ -85,6 +87,7 @@ for(var i = 0; i < ships.length; i++){
         }
     }
     if(isfree==false){
+        // Prefer i--
         i = i-1;
     }
 }
